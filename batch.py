@@ -17,7 +17,7 @@ def custom():
     
     # params[('seeds', 'stim')] =  [1000]
 
-    params[('addExternalStimulation')] = [0, 1]
+    params[('addExternalStimulation')] = [0]
 
     b = Batch(params=params, netParamsFile='netParams.py', cfgFile='cfg.py')
 
@@ -52,7 +52,7 @@ def setRunCfg(b, type='mpi_bulletin'):
                     'nodes': 1,
                     'coresPerNode': 4,
                     'email': 'fernandodasilvaborges@gmail.com',
-                    'folder': '/home/fborges/Extracellular_stimulation_NetPyNE/sim/',
+                    'folder': '/home/fborges/Human_L23_NetPyNE/sim/',
                     'script': 'init.py',
                     'mpiCommand': 'mpirun',
                     'custom': '#SBATCH --mem=249325M\n#SBATCH --export=ALL\n#SBATCH --partition=debug',
@@ -66,7 +66,7 @@ def setRunCfg(b, type='mpi_bulletin'):
                     'nodes': 1,
                     'coresPerNode': 128,
                     'email': 'fernandodasilvaborges@gmail.com',
-                    'folder': '/home/fborges/Extracellular_stimulation_NetPyNE/sim/',
+                    'folder': '/home/fborges/Human_L23_NetPyNE/sim/',
                     'script': 'init.py',
                     'mpiCommand': 'mpirun',
                     'custom': '#SBATCH --constraint="lustre"\n#SBATCH --mem=1024G\n#SBATCH --export=ALL\n#SBATCH --partition=large-shared',
@@ -79,7 +79,7 @@ def setRunCfg(b, type='mpi_bulletin'):
                     'nodes': 2,
                     'coresPerNode': 128,
                     'email': 'fernandodasilvaborges@gmail.com',
-                    'folder': '/p/home/jusers/borges1/jusuf/Extracellular_stimulation_NetPyNE/sim/',
+                    'folder': '/p/home/jusers/borges1/jusuf/Human_L23_NetPyNE/sim/',
                     'script': 'init.py',
                     'mpiCommand': 'srun',
                     'custom': '#SBATCH --account=icei-hbp-00000000006',
@@ -91,7 +91,7 @@ def setRunCfg(b, type='mpi_bulletin'):
 if __name__ == '__main__': 
     b = custom() #
 
-    b.batchLabel = 'v2_batch1'  
+    b.batchLabel = 'v1_batch1'  
     b.saveFolder = '/expanse/lustre/projects/csd403/fborges/'+b.batchLabel
     # b.saveFolder = '/p/project/icei-hbp-00000000006/borges1/'+b.batchLabel
     # b.saveFolder = '../data/'+b.batchLabel

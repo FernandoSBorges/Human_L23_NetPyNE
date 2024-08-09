@@ -26,9 +26,9 @@ cfg.coreneuron = False
 # Run parameters
 #------------------------------------------------------------------------------
 cfg.duration = 1000.0 ## Duration of the sim, in ms  
-cfg.dt = 0.05
-cfg.seeds = {'cell': 4322, 'conn': 4322, 'stim': 4322, 'loc': 4322} 
-cfg.hParams = {'celsius': 34, 'v_init': -71}  
+cfg.dt = 0.025
+cfg.seeds = {'cell': 4321, 'conn': 4321, 'stim': 1234, 'loc': 4321} 
+cfg.hParams = {'celsius': 34, 'v_init': -80}  
 cfg.verbose = False
 cfg.createNEURONObj = True
 cfg.createPyStruct = True  
@@ -60,7 +60,7 @@ cfg.loadcellsfromJSON = True
 cfg.poptypeNumber = 4
 cfg.celltypeNumber = 4
 
-cfg.allpops = ['HL23PYR', 'HL23VIP', 'HL23PV', 'HL23SST']
+cfg.allpops = ['HL23PYR', 'HL23SST', 'HL23PV', 'HL23VIP']
 
 #--------------------------------------------------------------------------
 # Recording 
@@ -81,7 +81,7 @@ cfg.recordStep = 0.1
 #------------------------------------------------------------------------------
 # Saving
 #------------------------------------------------------------------------------
-cfg.simLabel = 'v0_batch0'
+cfg.simLabel = 'v1_batch0'
 cfg.saveFolder = 'Circuit_output/'+cfg.simLabel
 # cfg.filename =                	## Set file output name
 cfg.savePickle = True         	## Save pkl file
@@ -108,13 +108,31 @@ cfg.analysis['plotShape'] = {'includePre': cfg.recordCells, 'includePost': cfg.r
 # Network 
 #------------------------------------------------------------------------------
 
+PYRmaxApics = [550   ,1550   ,1900]
+uppers =      [-250  ,-1200 ,-1600]
+lowers =      [-1200 ,-1580 ,-2300]
+
+L25_human = 250 + 950 + 380 + 720 + 1000
+Human_height = 3300.0
+
+cfg.scale = 1.0 # reduce size
+cfg.sizeY = 3300.0
+cfg.sizeX = 250.0 # r =  um 
+cfg.sizeZ = 250.0
+
+cell_num = [800, 50, 70, 80]
+# cell_num = [80, 5, 7, 8]
+
+cfg.cellNumber = {}
+for ii,cellName in enumerate(['HL23PYR', 'HL23SST', 'HL23PV', 'HL23VIP']):
+    cfg.cellNumber[cellName] = cell_num[ii]
 
 #------------------------------------------------------------------------------
 # Spontaneous synapses + background
 #------------------------------------------------------------------------------
 cfg.addStimSynS1 = True
-cfg.rateStimE = 9.0
-cfg.rateStimI = 9.0
+cfg.rateStimE = 100.0
+cfg.rateStimI = 100.0
 
 #------------------------------------------------------------------------------
 # Connectivity
@@ -127,14 +145,23 @@ cfg.EIGain = 1.0
 cfg.IIGain = 1.0
 cfg.IEGain = 1.0
 
+#------------------------------------------------------------------------------
+# Current inputs 
+#------------------------------------------------------------------------------
+cfg.addIClamp = 0
+
+cfg.IClamp1 = {'pop': 'HL23PYR',  'sec': 'soma_0', 'loc': 0.5, 'start': 0, 'dur': 100, 'amp': 0.1}
+# cfg.IClamp2 = {'pop': 'HL23VIP', 'sec': 'soma_0', 'loc': 0.5, 'start': 100, 'dur': 300, 'amp': 0.1}
+# cfg.IClamp3 = {'pop': 'HL23PV', 'sec': 'soma_0', 'loc': 0.5, 'start': 100, 'dur': 300, 'amp': 0.1}
+# cfg.IClamp4 = {'pop': 'HL23SST', 'sec': 'soma_0', 'loc': 0.5, 'start': 100, 'dur': 300, 'amp': 0.1}
 
 #------------------------------------------------------------------------------
 # External Stimulation
 #------------------------------------------------------------------------------
 
-cfg.addExternalStimulation = True
+cfg.addExternalStimulation = False
 
-# The parameters of the extracellular point current source
+# The parameters of Alternate Current Stimulation
 cfg.acs_params = {'position': [0.0, -1710.0, 0.0],  # um # y = [pia, bone]
               'amp': -1250.,  # uA,
               'stimstart': 300,  # ms
@@ -143,6 +170,7 @@ cfg.acs_params = {'position': [0.0, -1710.0, 0.0],  # um # y = [pia, bone]
               'sigma': 0.57  # decay constant S/m
               }
 
+# The parameters of Transcranial Magnetic Stimulation 
 cfg.tms_params = dict(
     freq_Hz=30.,
     duration_ms=cfg.duration,
